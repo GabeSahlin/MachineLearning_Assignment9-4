@@ -1,0 +1,64 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+csv_file = "weather_forecast_data.csv"
+df = pd.read_csv(csv_file)
+
+label = df.columns[-1]
+y = df[label].to_numpy()  #label = Rain : No Rain
+X = df.iloc[:, :-1].to_numpy() #features = Temp, Humidity, Wind Spd, Cloud Coverage, Pressure
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+clf = SVC(kernel='rbf')
+clf.fit(X_train, y_train)
+
+print(f"Train Score: {clf.score(X_train, y_train):.3f}")
+print(f"Test Score: {clf.score(X_test, y_test):.3f}")
+
+#-------
+
+print('---------------')
+print('grid search')
+parameters = {'C': [10, 50, 100], 'gamma': [0.0001, 0.001, 0.01]}
+parameters2 = {'C': [0.01, 0.1, 1, 10, 50, 100], 'gamma': [0.0001, 0.001, 0.01, 0.1, 1, 10]}
+# low gamma = far influence, high gamma = close influence
+# low C = Flexible/Larger Margin, high C = No Flexibility, Small Margin
+
+grid_search = GridSearchCV(clf, parameters, cv=5, scoring="accuracy")
+
+#(3)
+#Using the default of score to gridsearch may not be optimal if the dataset is imbalanced (Much more Yes's than No's)
+#In my dataset I believe in general weather prediction, using the score/accuracy is acceptable as it is highly accurate and there
+#are minimal consequences of false positives/negatives
+
+#If this prediction was needed for something along the lines of flash flood/ disaster weather warnings, I would want to maximize my Recall instead of Score
+#even at the expense of other categories as missing / false negative on a disaster approaching could have colossal impacts
+
+
+grid_search.fit(X_train, y_train)
+score_df = pd.DataFrame(grid_search.cv_results_)
+print(score_df[['param_C','param_gamma', 'mean_test_score', 'rank_test_score']])
+print('---------------')
+
+bestC = grid_search.best_params_["C"]
+bestGamma = grid_search.best_params_["gamma"]
+
+print(f"Best params are C: {bestC} and gamma: {bestGamma}")
+clf = SVC(kernel='rbf', C=bestC, gamma= bestGamma)
+clf.fit(X_train, y_train)
+print(f"Train Score: {clf.score(X_train, y_train):.3f}")
+print(f"Test Score: {clf.score(X_test, y_test):.3f}")
+
+
+predict_svc = clf.predict(X_test)
+print(f"Accuracy: {accuracy_score(y_test, predict_svc):.4f}")
+# Confusion Matrix
+cm = confusion_matrix(y_test, predict_svc, normalize="true") #normalize="true"
+disp_cm = ConfusionMatrixDisplay(cm, display_labels=clf.classes_)
+disp_cm.plot()
+plt.show()
