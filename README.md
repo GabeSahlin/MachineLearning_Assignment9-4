@@ -39,7 +39,7 @@ However, for **high-stakes applications** (e.g., flash flood or disaster predict
 
 ## Files Included  
 - `weather_forecast_data.csv` (linked from Kaggle)  
-- `SVC_RBF_rainPrediction.ipynb` (model training, grid search, and evaluation)  
+- `SVC_RBF_rainprediction.ipynb` (model training, grid search, and evaluation)  
 - Confusion matrix output included in notebook
 
 ## ✅ Results Summary  
