@@ -1,10 +1,10 @@
 # RBF Support Vector Classifier to predict rain
 
 
-## 📌 Project Overview  
+## Project Overview  
 This project builds a **Support Vector Classifier (SVC)** using a **Radial Basis Function (RBF) kernel** to predict whether it will rain based on quantitative weather features. The classifier is optimized using **GridSearchCV** to tune hyperparameters (`C` and `gamma`).
 
-## 📊 Dataset  
+## Dataset  
 - **Source**: [Weather Forecast Dataset on Kaggle](https://www.kaggle.com/datasets/zeeshier/weather-forecast-dataset?select=weather_forecast_data.csv)  
 - **File**: `weather_forecast_data.csv`  
 - **Target Variable**: `Rain` (Categorical: "Yes" or "No")  
@@ -17,7 +17,7 @@ This project builds a **Support Vector Classifier (SVC)** using a **Radial Basis
 
 The dataset contains under **10,000 rows**, making it suitable for efficient model training and evaluation.
 
-## ⚙️ Methodology  
+## Methodology  
 1. **Initial Model**  
    - Built an SVC using the RBF kernel with default hyperparameters  
    - Achieved a **baseline test accuracy of 87.7%**
@@ -27,7 +27,7 @@ The dataset contains under **10,000 rows**, making it suitable for efficient mod
    - Achieved an **optimized test accuracy of 97.1%** (accuracy = 0.9707)  
    - Generated a **confusion matrix** to evaluate model performance
 
-## 🔍 Evaluation Metric Consideration  
+## Evaluation Metric Consideration  
 The default scoring metric in GridSearchCV is **accuracy**, which may not always be ideal — particularly for **imbalanced datasets** where high accuracy can obscure poor performance on the minority class.
 
 In this case:
@@ -37,7 +37,7 @@ In this case:
 
 However, for **high-stakes applications** (e.g., flash flood or disaster prediction), it would be more appropriate to **maximize Recall**. In such cases, false negatives (i.e., failing to predict actual rain) could have **severe real-world consequences**, so a model that minimizes them is preferred.
 
-## 📁 Files Included  
+## Files Included  
 - `weather_forecast_data.csv` (linked from Kaggle)  
 - `assignment_notebook.ipynb` (model training, grid search, and evaluation)  
 - Confusion matrix output included in notebook
