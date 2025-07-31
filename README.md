@@ -39,7 +39,7 @@ However, for **high-stakes applications** (e.g., flash flood or disaster predict
 
 ## Files Included  
 - `weather_forecast_data.csv` (linked from Kaggle)  
-- `assignment_notebook.ipynb` (model training, grid search, and evaluation)  
+- `SVC_RBF_rainPrediction.ipynb` (model training, grid search, and evaluation)  
 - Confusion matrix output included in notebook
 
 ## ✅ Results Summary  
@@ -47,4 +47,6 @@ However, for **high-stakes applications** (e.g., flash flood or disaster predict
 - **Optimized SVC Accuracy (Grid Search)**: 97.1%  
 - **Best Parameters Found**: via GridSearchCV  
 - **Confusion Matrix**:
+
+
 ![Assign4_CM](https://github.com/user-attachments/assets/a5a09a80-e5a7-49ec-9ef7-f1e703cbe124) 
